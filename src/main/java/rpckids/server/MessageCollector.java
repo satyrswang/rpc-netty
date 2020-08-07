@@ -24,9 +24,9 @@ public class MessageCollector extends ChannelInboundHandlerAdapter {
 
 	private final static Logger LOG = LoggerFactory.getLogger(MessageCollector.class);
 
-	private ThreadPoolExecutor executor;
+	private ThreadPoolExecutor executor;//连接池
 	private MessageHandlers handlers;
-	private MessageRegistry registry;
+	private MessageRegistry registry;//server考虑对多个连接 多个事件处理
 
 	public MessageCollector(MessageHandlers handlers, MessageRegistry registry, int workerThreads) {
 		BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(1000);

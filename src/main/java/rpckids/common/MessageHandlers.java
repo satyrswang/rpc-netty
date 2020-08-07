@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class MessageHandlers {
 
+	//某个type绑定相应的handler
+
 	private Map<String, IMessageHandler<?>> handlers = new HashMap<>();
 	private IMessageHandler<MessageInput> defaultHandler;
 

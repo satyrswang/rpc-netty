@@ -23,14 +23,15 @@ public class DemoClient {
 	public static void main(String[] args) throws InterruptedException {
 		RPCClient client = new RPCClient("localhost", 8888);
 		DemoClient demo = new DemoClient(client);
-		for (int i = 0; i < 30; i++) {
-			try {
-				System.out.printf("fib(%d) = %d\n", i, demo.fib(i));
-				Thread.sleep(100);
-			} catch (RPCException e) {
-				i--; // retry
-			}
-		}
+//		for (int i = 0; i < 30; i++) {
+//			try {
+//				Long res = demo.fib(i);
+//				System.out.printf("fib(%d) = %d\n", i, demo.fib(i));
+//				Thread.sleep(100);
+//			} catch (RPCException e) {
+//				i--; // retry
+//			}
+//		}
 		for (int i = 0; i < 30; i++) {
 			try {
 				ExpResponse res = demo.exp(2, i);

@@ -10,6 +10,7 @@ import io.netty.handler.codec.ReplayingDecoder;
 public class MessageDecoder extends ReplayingDecoder<MessageInput> {
 
 	@Override
+	//如何将buf读成一个个成员变量并形成msg对象，存入list内存。根据长度读入bytes并转为string
 	protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
 		String requestId = readStr(in);
 		String type = readStr(in);

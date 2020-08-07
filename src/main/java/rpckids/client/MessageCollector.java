@@ -15,16 +15,17 @@ import rpckids.common.MessageOutput;
 import rpckids.common.MessageRegistry;
 
 @Sharable
+//channel
 public class MessageCollector extends ChannelInboundHandlerAdapter {
 
 	private final static Logger LOG = LoggerFactory.getLogger(MessageCollector.class);
 
-	private MessageRegistry registry;
-	private RPCClient client;
+	private MessageRegistry registry; //相应的message和type的绑定
+	private RPCClient client;//绑定相应的client
 	private ChannelHandlerContext context;
+	//存放所有的task和结果
 	private ConcurrentMap<String, RpcFuture<?>> pendingTasks = new ConcurrentHashMap<>();
-
-	private Throwable ConnectionClosed = new Exception("rpc connection not active error");
+	private Throwable ConnectionClosed = new Exception("rpc connection not active error");//连接异常
 
 	public MessageCollector(MessageRegistry registry, RPCClient client) {
 		this.registry = registry;
@@ -37,6 +38,7 @@ public class MessageCollector extends ChannelInboundHandlerAdapter {
 	}
 
 	@Override
+	//切换到另一个channel，将本channel绑定的ctx置为null，对future置为error后重新连接客户端
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		this.context = null;
 		pendingTasks.forEach((__, future) -> {
@@ -49,6 +51,7 @@ public class MessageCollector extends ChannelInboundHandlerAdapter {
 		}, 1, TimeUnit.SECONDS);
 	}
 
+	//把future结果写入ctx-transport
 	public <T> RpcFuture<T> send(MessageOutput output) {
 		ChannelHandlerContext ctx = context;
 		RpcFuture<T> future = new RpcFuture<T>();
@@ -64,6 +67,7 @@ public class MessageCollector extends ChannelInboundHandlerAdapter {
 	}
 
 	@Override
+	//获得input并执行，结果写入future
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		if (!(msg instanceof MessageInput)) {
 			return;

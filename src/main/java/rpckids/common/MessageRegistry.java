@@ -13,4 +13,5 @@ public class MessageRegistry {
 	public Class<?> get(String type) {
 		return clazzes.get(type);
 	}
+
 }

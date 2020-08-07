@@ -13,6 +13,7 @@ import io.netty.handler.codec.MessageToMessageEncoder;
 @Sharable
 public class MessageEncoder extends MessageToMessageEncoder<MessageOutput> {
 
+	//如何将后一个msg对象写入buf，写入则完成了encoder
 	@Override
 	protected void encode(ChannelHandlerContext ctx, MessageOutput msg, List<Object> out) throws Exception {
 		ByteBuf buf = PooledByteBufAllocator.DEFAULT.directBuffer();
